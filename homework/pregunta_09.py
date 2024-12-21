@@ -4,7 +4,7 @@ datos requeridos se encuentran en los archivos `tbl0.tsv`, `tbl1.tsv` y
 `tbl2.tsv`. En este laboratorio solo puede utilizar las funciones y 
 librerias de pandas para resolver las preguntas.
 """
-
+import pandas as pd
 
 def pregunta_09():
     """
@@ -23,3 +23,15 @@ def pregunta_09():
     39  39  E   5  1998-01-26  1998
 
     """
+    
+    ruta_archivo = "./files/input/tbl0.tsv"
+    tbl0 = pd.read_csv(ruta_archivo, sep="\t")
+    tbl0["c3"] = pd.to_datetime(tbl0["c3"], errors='coerce') 
+    
+    most_common_year = tbl0["c3"].dt.year.mode()[0] 
+    tbl0["year"] = tbl0["c3"].dt.year.fillna(most_common_year).astype(int).astype(str)
+    
+    return tbl0
+
+if __name__ == "__main__":
+    print(pregunta_09())

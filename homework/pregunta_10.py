@@ -5,7 +5,7 @@ datos requeridos se encuentran en los archivos `tbl0.tsv`, `tbl1.tsv` y
 librerias de pandas para resolver las preguntas.
 """
 
-
+import pandas as pd
 def pregunta_10():
     """
     Construya una tabla que contenga `c1` y una lista separada por ':' de los
@@ -20,3 +20,14 @@ def pregunta_10():
     D                   1:2:3:5:5:7
     E   1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
+    ruta_archivo = "./files/input/tbl0.tsv"
+    tbl0 = pd.read_csv(ruta_archivo, sep="\t")
+   
+    result = tbl0.groupby('c1')['c2'].agg(lambda x: ':'.join(map(str, sorted(x)))).reset_index()
+    result.set_index('c1', inplace=True)
+    result.index.name = "_c1"
+    
+    return result
+
+if __name__ == "__main__":
+    print(pregunta_10())
